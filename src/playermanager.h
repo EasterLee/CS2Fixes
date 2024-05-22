@@ -120,6 +120,9 @@ public:
 		m_flSpeedMod = 1.f;
 		m_iLastInputs = IN_NONE;
 		m_iLastInputTime = std::time(0);
+		m_bTransparencyPending = false;
+		m_bTransparency = false;
+		m_bIsTransparent = false;
 	}
 
 	~ZEPlayer()
@@ -173,6 +176,9 @@ public:
 	void SetSpeedMod(float flSpeedMod) { m_flSpeedMod = flSpeedMod; }
 	void SetLastInputs(uint64 iLastInputs) { m_iLastInputs = iLastInputs; }
 	void UpdateLastInputTime() { m_iLastInputTime = std::time(0); }
+	void SetTransparencyPending(bool bTransparencyPending) { m_bTransparencyPending = bTransparencyPending; }
+	void SetTransparency(bool bTransparency) { m_bTransparency = bTransparency; }
+	void MarkTransparent(bool bIsTransparent) { m_bIsTransparent = bIsTransparent; }
 
 	bool IsMuted() { return m_bMuted; }
 	bool IsGagged() { return m_bGagged; }
@@ -205,6 +211,9 @@ public:
 	float GetSpeedMod() { return m_flSpeedMod; }
 	uint64 GetLastInputs() { return m_iLastInputs; }
 	std::time_t GetLastInputTime() { return m_iLastInputTime; }
+	bool GetTransparencyPending() { return m_bTransparencyPending; }
+	bool GetTransparency() { return m_bTransparency; }
+	bool IsTransparent() { return m_bIsTransparent; }
 	
 	void OnSpawn();
 	void OnAuthenticated();
@@ -257,6 +266,9 @@ private:
 	float m_flSpeedMod;
 	uint64 m_iLastInputs;
 	std::time_t m_iLastInputTime;
+	bool m_bTransparencyPending;
+	bool m_bTransparency;
+	bool m_bIsTransparent;
 };
 
 class CPlayerManager

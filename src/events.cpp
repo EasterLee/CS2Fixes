@@ -29,6 +29,7 @@
 #include "votemanager.h"
 #include "leader.h"
 #include "recipientfilters.h"
+#include "playertransparency.h"
 
 #include "tier0/memdbgon.h"
 
@@ -120,6 +121,9 @@ FAKE_BOOL_CVAR(cs2f_noblock_enable, "Whether to use noblock, which sets debris c
 
 GAME_EVENT_F(player_spawn)
 {
+
+	Transparency_OnPlayerSpawn(pEvent);
+
 	if (g_bEnableZR)
 		ZR_OnPlayerSpawn(pEvent);
 
@@ -218,6 +222,8 @@ GAME_EVENT_F(round_start)
 
 	if (g_bEnableLeader)
 		Leader_OnRoundStart(pEvent);
+
+	Transparency_OnRoundStart(pEvent);
 
 	// Dumb workaround for CS2 always overriding sv_full_alltalk on state changes
 	if (g_bFullAllTalk)
