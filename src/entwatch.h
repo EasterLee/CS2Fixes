@@ -43,7 +43,7 @@ using ordered_json = nlohmann::ordered_json;
 
 #define EW_HUDSIZE_DEFAULT 60.0f
 
-#define EW_HUD_TICKRATE 0.5f
+#define EW_HUD_TICKRATE 1.0f
 
 extern CConVar<bool> g_cvarEnableEntWatch;
 extern CConVar<bool> g_cvarEnableEntwatchHud;
@@ -178,7 +178,7 @@ public:
 		sClantag(""),
 		bHasThisClantag(false),
 		iTeamNum(CS_TEAM_NONE),
-		bShouldGlow(false){};
+		bShouldGlow(false) {};
 	bool RegisterHandler(CBaseEntity* pEnt, int iHandlerTemplateNum);
 	bool RemoveHandler(CBaseEntity* pEnt);
 	int FindHandlerByEntIndex(int indexToFind);

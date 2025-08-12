@@ -1949,6 +1949,44 @@ void CEWHandler::Hook_Use(InputData_t* pInput)
 	RETURN_META(MRES_IGNORED);
 }
 
+float charWidths[] = {11, 26, 53, 46, 75, 58, 10, 24, 24, 31, 46, 11, 26, 11, 27, 46, 26, 47, 46, 48, 46, 46, 46, 47, 47, 11, 11, 46, 46, 46, 45, 89, 66, 52, 62, 58, 52, 48, 64, 55, 11, 39, 57, 43, 66, 55, 67, 53, 68, 62, 55, 55, 55, 64, 89, 64, 64, 56, 20, 27, 20, 41, 57, 18, 47, 44, 45, 44, 47, 30, 44, 41, 9, 20, 42, 9, 68, 41, 47, 44, 44, 28, 43, 25, 41, 46, 69, 48, 47, 45, 28, 9, 28, 49};
+void printParticleText(const std::string& txt, float x, float y, float size, IRecipientFilter* pFilter)
+{
+	int iCount = txt.length();
+	Message("%s, %d\n", txt.c_str(), iCount);
+	std::string p = "particles/font/char_000.vpcf";
+	char buffer[4];
+
+	CRecipientFilter filter;
+	filter.AddAllPlayers();
+	Vector vecCursor = Vector(x, y, size);
+	Vector vecAngles = Vector(0, 0, 0);
+	float xStart = x;
+
+	for (int i = 0; i < iCount; i++)
+	{
+		char c = txt.at(i);
+		if (c == '\n')
+		{
+			vecCursor.y -= 2;
+			vecCursor.x = xStart;
+			continue;
+		}
+		if (c < 33 || c > 126)
+		{
+			vecCursor.x += 0.5;
+			continue;
+		}
+		float charWidth = charWidths[c - 33];
+		vecCursor.x += charWidth / 128;
+		sprintf(buffer, "%03d", c);
+		p.replace(20, 3, buffer);
+		addresses::UTIL_DispatchParticleEffectFilter_Position(p.c_str(), &vecCursor, &vecAngles, nullptr, false, -1, pFilter, false);
+		vecCursor.x += charWidth / 128;
+		vecCursor.x += 0.1;
+	}
+}
+
 // Update cd and uses of all held items
 float EW_UpdateHud()
 {
@@ -2012,7 +2050,8 @@ float EW_UpdateHud()
 			return EW_HUD_TICKRATE;
 		bWasEmptyPreviously = true;
 	}
-
+	CRecipientFilter filterName;
+	CRecipientFilter filterItem;
 	for (int i = 0; i < GetGlobals()->maxClients; i++)
 	{
 		CCSPlayerController* pController = CCSPlayerController::FromSlot(i);
@@ -2032,13 +2071,16 @@ float EW_UpdateHud()
 			continue;
 
 		if (mode == EWHudMode::Hud_On)
-			pText->AcceptInput("SetMessage", sHudText.c_str());
+			filterName.AddRecipient(i);
+		// pText->AcceptInput("SetMessage", sHudText.c_str());
 		else if (mode == EWHudMode::Hud_ItemOnly)
-			pText->AcceptInput("SetMessage", sHudTextNoPlayerNames.c_str());
+			filterItem.AddRecipient(i);
+		// pText->AcceptInput("SetMessage", sHudTextNoPlayerNames.c_str());
 		else
 			pText->AcceptInput("SetMessage", "");
 	}
-
+	printParticleText(sHudText, -40, 8, 0.025, &filterName);
+	printParticleText(sHudTextNoPlayerNames, -40, 8, 0.025, &filterItem);
 	return EW_HUD_TICKRATE;
 }
 

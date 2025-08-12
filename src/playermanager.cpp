@@ -272,6 +272,14 @@ bool ZEPlayer::IsFlooding()
 void PrecacheBeaconParticle(IEntityResourceManifest* pResourceManifest)
 {
 	pResourceManifest->AddResource(g_cvarBeaconParticle.Get().String());
+	std::string p = "particles/font/char_000.vpcf";
+	char buffer[4];
+	for (int i = 33; i < 127; i++)
+	{
+		sprintf(buffer, "%03d", i);
+		p.replace(20, 3, buffer);
+		pResourceManifest->AddResource(p.c_str());
+	}
 }
 
 void ZEPlayer::StartBeacon(Color color, ZEPlayerHandle hGiver /* = 0*/)

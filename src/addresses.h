@@ -109,4 +109,6 @@ namespace addresses
 	inline void(FASTCALL* CNetworkStringTable_DeleteAllStrings)(INetworkStringTable* pThis);
 	inline void(FASTCALL* CCSPlayer_WeaponServices_EquipWeapon)(CCSPlayer_WeaponServices* pWeaponServices, CBasePlayerWeapon* pPlayerWeapon);
 	inline void(FASTCALL* GetSpawnGroups)(CSpawnGroupMgrGameSystem* pSpawnGroupMgr, CUtlVector<SpawnGroupHandle_t>* pList);
+	// const char* pszParticleName, Vector* pOrigin, Vector* pAngles, CBaseEntity* pEntity, bool bAllowDormantSpawn = false, int32_t nSplitScreenPlayerSlot = -1, IRecipientFilter* pFilter = nullptr, bool bResetAllParticlesOnEntity = false
+	inline void(FASTCALL* UTIL_DispatchParticleEffectFilter_Position)(const char* pszParticleName, Vector* pOrigin, Vector* pAngles, CBaseEntity* pEntity, bool bAllowDormantSpawn, int32_t nSplitScreenPlayerSlot, IRecipientFilter* pFilter, bool bResetAllParticlesOnEntity);
 } // namespace addresses

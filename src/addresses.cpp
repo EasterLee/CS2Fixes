@@ -75,6 +75,7 @@ bool addresses::Initialize(CGameConfig* g_GameConfig)
 	RESOLVE_SIG(g_GameConfig, "CNetworkStringTable_DeleteAllStrings", addresses::CNetworkStringTable_DeleteAllStrings);
 	RESOLVE_SIG(g_GameConfig, "CCSPlayer_WeaponServices_EquipWeapon", addresses::CCSPlayer_WeaponServices_EquipWeapon);
 	RESOLVE_SIG(g_GameConfig, "GetSpawnGroups", addresses::GetSpawnGroups);
+	RESOLVE_SIG(g_GameConfig, "UTIL_DispatchParticleEffectFilter_Position", addresses::UTIL_DispatchParticleEffectFilter_Position);
 
 	return InitializeBanMap(g_GameConfig);
 }
